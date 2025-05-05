@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    //没面子
+    //
     public static void main(String[] args) {
 
-        //ni
+        //nihao
         String filePath = "./src/test.txt";
         // Create WordGraph instance
         WordGraph wordGraph = new WordGraph();
