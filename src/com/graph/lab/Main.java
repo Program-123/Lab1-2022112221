@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         //nihao
-        //ni
+        //123
         String filePath = "./src/test.txt";
         // Create WordGraph instance
         WordGraph wordGraph = new WordGraph();
