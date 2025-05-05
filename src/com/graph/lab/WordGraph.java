@@ -205,6 +205,7 @@ public class WordGraph {
 
 
     public String randomWalk() {
+        //123
         // Randomly select a starting node
         Random random = new Random();
         List<String> nodes = new ArrayList<>(adjacencyList.keySet());
