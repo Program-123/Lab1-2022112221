@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         //nihao
-        //789
+        //处理冲突1
         String filePath = "./src/test.txt";
         // Create WordGraph instance
         WordGraph wordGraph = new WordGraph();
