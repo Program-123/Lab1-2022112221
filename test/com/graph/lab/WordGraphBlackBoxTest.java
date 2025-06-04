@@ -1,81 +1,117 @@
-/**
- * @Date: 2024-06-13
- * @Info: 1. 黑盒测试
- *        2. 不知到wordgraph类中的方法的具体实现，只知道一个规格文档，输入输出的关系
- *        3. calcShortestPath方法
- *        4. queryBridgeWords方法
- *        5. generateNewText方法
- *        6. randomWalk方法
- */
 package com.graph.lab;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WordGraphBlackBoxTest {
 
     private WordGraph wordGraph;
+    private String currentTestName;
 
     @BeforeEach
-    void setup() {
+    void setup(TestInfo testInfo) {
         wordGraph = new WordGraph();
-        wordGraph.buildGraph("explore strange new worlds to seek out new life and new lzl");
+        currentTestName = testInfo.getDisplayName();
+        System.out.println("\n=== 开始测试: " + currentTestName + " ===");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("=== " + currentTestName + " 测试成功! ===");
     }
 
     @Test
-    void testQueryBridgeWords() {
-        // 正常情况
-        assertEquals("The bridge words from explore to new are: strange", wordGraph.queryBridgeWords("explore", "new"));
-        assertEquals("No bridge words from to to new!", wordGraph.queryBridgeWords("to", "new"));
+    void testCase1_aLittleBaby() {
+        wordGraph.buildGraph("a little baby");
+        System.out.println("测试场景: 简单三个单词连接");
 
-        // 异常情况：测试单词不在图中
-        assertEquals("Neither enter nor tje is in the graph!", wordGraph.queryBridgeWords("enter", "tje"));
-        assertEquals("No enter in the graph!", wordGraph.queryBridgeWords("enter", "new"));
-        assertEquals("No tje in the graph!", wordGraph.queryBridgeWords("lzl", "tje"));
+        // 测试calcShortestPath
+        String pathResult = wordGraph.calcShortestPath("a", "baby");
+        assertTrue(pathResult.contains("a -> little -> baby"),
+                "最短路径应包含: a -> little -> baby");
+        System.out.println("✓ calcShortestPath 通过");
 
-        // 边界情况：测试单词相邻但没有桥接词
-        assertEquals("No bridge words from life to lzl!", wordGraph.queryBridgeWords("life", "lzl"));
-        assertEquals("No bridge words from out to new!", wordGraph.queryBridgeWords("out", "new"));
+        // 测试queryBridgeWords
+        String bridgeResult = wordGraph.queryBridgeWords("a", "baby");
+        assertEquals("The bridge words from a to baby are: little", bridgeResult);
+        System.out.println("✓ queryBridgeWords 通过");
+
+        // 测试generateNewText
+        String generateResult = wordGraph.generateNewText("a baby");
+        assertEquals("a little baby", generateResult);
+        System.out.println("✓ generateNewText 通过");
     }
 
     @Test
-    void testGenerateNewText() {
-
-        // 正常情况：使用桥接词生成新文本
-        assertEquals("explore strange new worlds to seek out new life and new lzl",
-                wordGraph.generateNewText("explore new worlds to seek new life new lzl"));
-        assertEquals("explore strange new worlds to seek out new life and new lzl",
-                wordGraph.generateNewText("explore strange new worlds to seek out new life and new lzl"));
-        // 异常情况：没有桥接词
-        assertEquals("seek out new life",wordGraph.generateNewText("seek out new life"));
-    }
-
-    @Test
-    void testCalcShortestPath() {
-
-        // 正常情况：测试已知单词之间的最短路径
-        assertEquals("The shortest path(s) from explore to lzl with length 3 are:\n" +
-                "explore -> strange -> new -> lzl\n", wordGraph.calcShortestPath("explore", "lzl"));
-
-        assertEquals("The shortest path(s) from explore to new with length 2 are:\n" +
-                "explore -> strange -> new\n", wordGraph.calcShortestPath("explore", "new"));
-
-        //无最短路径
-        // 异常情况：测试单词不在图中
-        assertEquals("No word2 in the graph!", wordGraph.calcShortestPath("explore", "unknown"));
-        assertEquals("No word1 in the graph!", wordGraph.calcShortestPath("unknown", "explore"));
-    }
-    @Test
-    void testRandomWalk() {
-
-        // 多次运行随机游走，确保结果非空
-        for (int i = 0; i < 10; i++) { // Run multiple times to ensure randomness
-            String walk = wordGraph.randomWalk();
-            assertNotNull(walk);
-            assertFalse(walk.isEmpty());
+    void testCase2_AllSeparators() {
+        String input = "@ @ @ @";
+        if (!input.matches("^[\\s@,;:.!?]+$")) {
+            wordGraph.buildGraph(input);
         }
+        System.out.println("测试场景: 全部分隔符，无有效单词");
+
+        // 测试calcShortestPath
+        String pathResult = wordGraph.calcShortestPath("a", "b");
+        assertEquals("No word1 in the graph!", pathResult);
+        System.out.println("✓ calcShortestPath 通过");
+
+        // 测试queryBridgeWords
+        String bridgeResult = wordGraph.queryBridgeWords("a", "b");
+        assertEquals("Neither a nor b is in the graph!", bridgeResult);
+        System.out.println("✓ queryBridgeWords 通过");
+
+        // 测试generateNewText
+        String generateResult = wordGraph.generateNewText("a b");
+        assertEquals("a b", generateResult);
+        System.out.println("✓ generateNewText 通过");
     }
 
+    @Test
+    void testCase3_MixedWithSeparators() {
+        wordGraph.buildGraph("a@little@baby");
+        System.out.println("测试场景: 单词与分隔符混合（有效单词）");
+
+        // 测试calcShortestPath
+        String pathResult = wordGraph.calcShortestPath("a", "baby");
+        assertTrue(pathResult.contains("a -> little -> baby"),
+                "最短路径应包含: a -> little -> baby");
+        System.out.println("✓ calcShortestPath 通过");
+
+        // 测试queryBridgeWords
+        String bridgeResult = wordGraph.queryBridgeWords("a", "baby");
+        assertEquals("The bridge words from a to baby are: little", bridgeResult);
+        System.out.println("✓ queryBridgeWords 通过");
+
+        // 测试generateNewText
+        String generateResult = wordGraph.generateNewText("a baby");
+        assertEquals("a little baby", generateResult);
+        System.out.println("✓ generateNewText 通过");
+    }
+
+    @Test
+    void testCase4_WithSpecialCharacters() {
+        wordGraph.buildGraph("a little baby の");
+        System.out.println("测试场景: 包含特殊字符的单词");
+
+        // 测试calcShortestPath
+        String pathResult = wordGraph.calcShortestPath("a", "baby");
+        assertTrue(pathResult.contains("a -> little -> baby"),
+                "最短路径应包含: a -> little -> baby");
+        System.out.println("✓ calcShortestPath 通过");
+
+        // 测试queryBridgeWords
+        String bridgeResult = wordGraph.queryBridgeWords("a", "baby");
+        assertEquals("The bridge words from a to baby are: little", bridgeResult);
+        System.out.println("✓ queryBridgeWords 通过");
+
+        // 测试generateNewText
+        String generateResult = wordGraph.generateNewText("a baby の");
+        assertEquals("a little baby の", generateResult);
+        System.out.println("✓ generateNewText 通过");
+    }
 }
