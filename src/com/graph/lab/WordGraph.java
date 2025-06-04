@@ -16,7 +16,7 @@ public class WordGraph {
     }
     //bvbvc
     public void buildGraph(String text) {
-        String[] words = text.split("\\s+");
+        String[] words = text.split("[\\s@,;:.!?]+");
         for (int i = 0; i < words.length - 1; i++) {
             String word1 = words[i].toLowerCase();
             String word2 = words[i + 1].toLowerCase();
@@ -44,9 +44,7 @@ public class WordGraph {
 
     public String queryBridgeWords(String word1, String word2) {
 
-//        if (!adjacencyList.containsKey(word1) || !adjacencyList.containsKey(word2)) {
-//            return "No " + (adjacencyList.containsKey(word1) ? "word2" : "word1") + " in the graph!";
-//        }
+
         boolean word1Exists = adjacencyList.containsKey(word1);
         boolean word2Exists = adjacencyList.containsKey(word2);
 
@@ -66,7 +64,6 @@ public class WordGraph {
                 bridgeWords.add(neighbor);
             }
         }
-
         if (bridgeWords.isEmpty()) {
             return "No bridge words from " + word1 + " to " + word2 + "!";
         } else {

@@ -14,15 +14,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    //
     public static void main(String[] args) {
 
-        //nihao
+        //ni
         String filePath = "./src/test.txt";
         // Create WordGraph instance
         WordGraph wordGraph = new WordGraph();
-        //11
-        //22
 
 
         try {
@@ -78,7 +75,7 @@ public class Main {
                         exit = true;
                         break;
                     default:
-                        System.out.println("Invalid choice. Please enter a number between 1 and 7.");
+                        System.out.println("Invalid choice. Please enter a number between 1 and 5.");
                 }
             }
         } catch (IOException e) {
