@@ -90,6 +90,7 @@ public class WordGraph {
             String bridgeWordsResult = queryBridgeWords(word1, word2);
 
             // 检查是否找到了桥接词
+
             if (bridgeWordsResult.startsWith("The bridge words from")) {
                 try {
                     // 计算前缀的长度

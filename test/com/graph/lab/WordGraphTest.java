@@ -23,8 +23,9 @@ class WordGraphWhiteBoxBridgeWordsTest {
 
     // 测试用例1
     @Test
+    // 构建空图，使an和babies都不在图中
     void testQueryBridgeWords_Case1() throws Exception {
-        // 构建空图，使an和babies都不在图中
+
         Map<String, List<String>> adjacencyList = new HashMap<>();
         setAdjacencyList(adjacencyList);
 

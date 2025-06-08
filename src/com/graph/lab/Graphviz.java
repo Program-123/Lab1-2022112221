@@ -26,16 +26,6 @@ public class Graphviz {
         }
     }
 
-    private static File writeDotSourceToFile(String dotSource) throws IOException {
-//        File tempDotFile = Files.createTempFile(Paths.get(TEMP_DIR), "graph_", ".dot").toFile();
-        File tempDotFile = Files.createTempFile(Paths.get(TEMP_DIR), "graph", ".dot").toFile();
-
-        try (FileWriter writer = new FileWriter(tempDotFile)) {
-            writer.write(dotSource);
-        }
-//        System.out.println("DOT file path: " + tempDotFile.getAbsolutePath());
-        return tempDotFile;
-    }
 
 
     private static void convertDotToImage(File dotFile, String outputFilePath, String imageFormat) throws IOException {
@@ -51,6 +41,17 @@ public class Graphviz {
             Thread.currentThread().interrupt();
             System.err.println("Error: Interrupted while converting DOT to image.");
         }
+    }
+
+    private static File writeDotSourceToFile(String dotSource) throws IOException {
+//        File tempDotFile = Files.createTempFile(Paths.get(TEMP_DIR), "graph_", ".dot").toFile();
+        File tempDotFile = Files.createTempFile(Paths.get(TEMP_DIR), "graph", ".dot").toFile();
+
+        try (FileWriter writer = new FileWriter(tempDotFile)) {
+            writer.write(dotSource);
+        }
+//        System.out.println("DOT file path: " + tempDotFile.getAbsolutePath());
+        return tempDotFile;
     }
 
     public static void showDirectedGraph(WordGraph wordGraph) {

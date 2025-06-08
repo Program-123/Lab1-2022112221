@@ -13,7 +13,7 @@ class GraphvizTest {
         wordGraph.buildGraph(txt);
         Graphviz.showDirectedGraph(wordGraph);
     }
-
+    //测试
     @Test
     void generateGraphWithShortestPath() {
         wordGraph.buildGraph(txt);

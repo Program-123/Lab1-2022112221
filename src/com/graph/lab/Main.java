@@ -18,7 +18,9 @@ public class Main {
 
         //ni
         String filePath = "./src/test.txt";
+
         // Create WordGraph instance
+
         WordGraph wordGraph = new WordGraph();
 
 

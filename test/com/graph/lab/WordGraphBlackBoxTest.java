@@ -31,6 +31,8 @@ class WordGraphBlackBoxTest {
         System.out.println("测试场景: 简单三个单词连接");
 
         // 测试calcShortestPath
+
+
         String pathResult = wordGraph.calcShortestPath("a", "baby");
         assertTrue(pathResult.contains("a -> little -> baby"),
                 "最短路径应包含: a -> little -> baby");
